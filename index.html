@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="assets/IMG-20251104-WA0003-removebg-preview.png" type="image/x-icon" class="favicon">
+    <title>CashTrack - Loan Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-inner container">
+            <div class="brand">
+                <a href="index.html">
+                    <img src="assets/IMG-20251104-WA0003-removebg-preview.png" alt="CashTrack Logo" class="logo" />
+                    <div class="brand-text">CashTrack</div>
+                </a>
+            </div>
+
+            <nav class="nav-links" id="navLinks">
+                <div class="dropdown">
+                    <button class="dropbtn">Tools ▾</button>
+                    <div class="dropdown-content">
+                        <a href="index.html">Loan Calculator</a>
+                        <a href="budget-planner.html">Budget Planner</a>
+                        <a href="savings-calculator.html">Savings Goal Calculator</a>
+                        <a href="investment-calculator.html">Investment Return Calculator</a>
+                    </div>
+                </div>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+            </nav>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="toggle menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="tools-page container">
+        <aside class="ad left-ad fade-in">
+            <div class="ad-box">Left Ad Space</div>
+        </aside>
+
+        <section class="tool-center">
+            <div class="tool-card gradient-royal soft-glow fade-in">
+                <h2>Loan Calculator</h2>
+                <p class="muted">Calculate monthly EMI, total interest and total payment.</p>
+
+                <form id="loan-form" class="tool-form" novalidate>
+                    <div class="form-row">
+                        <label for="loan-amount">Loan amount</label>
+                        <input id="loan-amount" type="number" min="0" step="0.01" placeholder="e.g. 100000" required />
+                    </div>
+
+                    <div class="form-row">
+                        <label for="loan-rate">Annual interest rate (%)</label>
+                        <input id="loan-rate" type="number" min="0" step="0.01" placeholder="e.g. 7.5" required />
+                    </div>
+
+                    <div class="form-row">
+                        <label for="loan-term">Term (years)</label>
+                        <input id="loan-term" type="number" min="0" step="1" placeholder="e.g. 10" required />
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="loan-calc" class="btn btn-primary">Calculate</button>
+                        <button type="reset" class="btn btn-outline">Reset</button>
+                    </div>
+
+                    <div id="loan-error" class="error" aria-live="polite"></div>
+                </form>
+
+                <div id="loan-results" class="results">
+                    <div class="result-item"><strong>EMI (monthly):</strong> <span id="emi">—</span></div>
+                    <div class="result-item"><strong>Total Interest:</strong> <span id="total-interest">—</span></div>
+                    <div class="result-item"><strong>Total Payment:</strong> <span id="total-payment">—</span></div>
+                </div>
+            </div>
+        </section>
+
+        <aside class="ad right-ad fade-in">
+            <div class="ad-box">Right Ad Space</div>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">© <span id="currentYear"></span> CashTrack — All rights reserved.</div>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+            
+            // Mobile menu toggle functionality
+            const mobileMenuToggle = document.querySelector('#mobileMenuToggle');
+            const navLinks = document.querySelector('#navLinks');
+
+            mobileMenuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('show');
+            });
+
+            // Close menu when clicking on a link
+            const navLinksAll = document.querySelectorAll('.nav-links a, .nav-links .dropbtn');
+            navLinksAll.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 600) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            });
+            
+            // Calculate button event listener
+            document.getElementById('loan-calc').addEventListener('click', function() {
+                calculateLoan();
+            });
+            
+            // Form reset event listener
+            document.getElementById('loan-form').addEventListener('reset', function() {
+                document.getElementById('loan-results').style.display = 'none';
+                document.getElementById('loan-error').style.display = 'none';
+            });
+            
+            function calculateLoan() {
+                // Get input values
+                const loanAmount = parseFloat(document.getElementById('loan-amount').value);
+                const loanRate = parseFloat(document.getElementById('loan-rate').value);
+                const loanTerm = parseFloat(document.getElementById('loan-term').value);
+                
+                // Validate inputs
+                const errorMessage = document.getElementById('loan-error');
+                
+                if (!loanAmount || loanAmount <= 0) {
+                    errorMessage.textContent = 'Please enter a valid loan amount.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                if (!loanRate || loanRate <= 0) {
+                    errorMessage.textContent = 'Please enter a valid interest rate.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                if (!loanTerm || loanTerm <= 0) {
+                    errorMessage.textContent = 'Please enter a valid loan term.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+                
+                // Hide error message if inputs are valid
+                errorMessage.style.display = 'none';
+                
+                // Calculate loan details
+                const monthlyRate = loanRate / 100 / 12;
+                const numberOfPayments = loanTerm * 12;
+                
+                // EMI Calculation
+                const emi = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments) / 
+                           (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
+                
+                // Total Payment
+                const totalPayment = emi * numberOfPayments;
+                
+                // Total Interest
+                const totalInterest = totalPayment - loanAmount;
+                
+                // Format numbers as currency
+                const formatter = new Intl.NumberFormat('en-US', {
+                    style: 'currency',
+                    currency: 'USD',
+                    minimumFractionDigits: 2
+                });
+                
+                // Display results
+                document.getElementById('emi').textContent = formatter.format(emi);
+                document.getElementById('total-interest').textContent = formatter.format(totalInterest);
+                document.getElementById('total-payment').textContent = formatter.format(totalPayment);
+                
+                // Show results section
+                document.getElementById('loan-results').style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

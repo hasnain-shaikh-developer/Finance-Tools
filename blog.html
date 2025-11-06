@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CashTrack - Blog</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Poppins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="assets/IMG-20251104-WA0003-removebg-preview.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <header class="navbar">
+        <div class="nav-inner container">
+            <div class="brand">
+                <a href="index.html">
+                    <img src="assets/IMG-20251104-WA0003-removebg-preview.png" alt="CashTrack Logo" class="logo" />
+                    <div class="brand-text">CashTrack</div>
+                </a>
+            </div>
+
+            <nav class="nav-links" id="navLinks">
+                <div class="dropdown">
+                    <button class="dropbtn">Tools ▾</button>
+                    <div class="dropdown-content">
+                        <a href="index.html">Loan Calculator</a>
+                        <a href="budget-planner.html">Budget Planner</a>
+                        <a href="savings-calculator.html">Savings Goal Calculator</a>
+                        <a href="investment-calculator.html">Investment Return Calculator</a>
+                    </div>
+                </div>
+                <a href="about.html" class="nav-link">About</a>
+                <a href="blog.html" class="nav-link">Blog</a>
+            </nav>
+
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="toggle menu">☰</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="tools-page container">
+        <!-- Left Ad -->
+        <aside class="ad left-ad fade-in">
+            <div class="ad-box">Left Ad Space</div>
+        </aside>
+
+        <!-- Blog Content -->
+        <section class="blog-center">
+            <div class="blog-page fade-in">
+                <h1>Blog</h1>
+                <p class="lead">Short posts with practical finance tips.</p>
+
+                <!-- Article 1 -->
+                <article class="card">
+                    <h3>How to Build a Strong Emergency Fund</h3>
+                    <p class="muted">Life is unpredictable. A sudden job loss, medical emergency, or car repair can put serious pressure on your finances. Without an emergency fund, these situations can lead to debt and unnecessary stress. Having a well-built emergency fund gives you financial security and peace of mind.</p>
+                    <a class="small-link" onclick="toggleArticle(this)">Read more →</a>
+                    <div class="full-article">
+                        <p>1. Understand what an emergency fund is
+An emergency fund is money set aside specifically for unexpected expenses. Ideally, it should cover three to six months of your living costs — things like rent, food, transportation, and bills. This fund acts as a safety net so you don't have to rely on credit cards or loans when something unexpected happens.
+
+2. Calculate your monthly expenses
+Start by figuring out how much you spend each month. Include essentials like housing, groceries, utilities, and transportation. For example, if your monthly expenses are $1,500, your emergency fund goal should be around $4,500 to $9,000. Having a clear target helps you stay consistent.
+
+3. Start small and stay consistent
+Don't get discouraged by the final number. Even saving a small amount every month adds up. Begin with a mini goal — say $500 or $1,000 — and build from there. Setting up an automatic transfer to your savings account can make the process effortless and consistent.
+
+4. Keep your fund separate
+Your emergency fund should be easy to access but separate from your main spending account. A high-yield savings account is ideal because it keeps your money safe while earning some interest.
+
+5. Use it only for true emergencies
+The purpose of an emergency fund is to handle unexpected financial challenges, not to cover vacations, new gadgets, or shopping sprees. Stay disciplined so the fund is available when you truly need it.
+
+6. Review and update regularly
+As your income and expenses change, adjust your fund accordingly. Reviewing it once or twice a year ensures it stays in line with your current lifestyle.
+
+Building an emergency fund may take time, but it's one of the most important steps toward financial stability. Even starting with a small amount can make a big difference. The peace of mind that comes from knowing you're financially prepared is worth every dollar you save.</p>
+                    </div>
+                </article>
+
+                <!-- Article 2 -->
+                <article class="card">
+                    <h3>Setting a realistic savings target</h3>
+                    <p class="muted">January 28, 2025 · A guide to timeframes, interest, and safety buffers.</p>
+                    <a class="small-link" onclick="toggleArticle(this)">Read more →</a>
+                    <div class="full-article">
+                        <p>When setting savings goals, first calculate your monthly expenses and emergency fund. Decide how much you can realistically save each month. A good target is saving at least 20% of your income. Break down large goals into smaller milestones, and review your progress regularly to stay motivated.</p>
+                    </div>
+                </article>
+
+                <!-- Article 3 -->
+                <article class="card">
+                    <h3>Smart Ways to Save for Retirement</h3>
+                    <p class="muted">October 1, 2025 · Learn practical strategies to build your retirement fund over time.</p>
+                    <a class="small-link" onclick="toggleArticle(this)">Read more →</a>
+                    <div class="full-article">
+                        <p>Retirement planning is essential for financial independence. Start early to take advantage of compounding. Use retirement accounts that offer tax benefits. Automate your savings so it becomes a habit, and review your investments yearly to ensure they align with your goals.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Right Ad -->
+        <aside class="ad right-ad fade-in">
+            <div class="ad-box">Right Ad Space</div>
+        </aside>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">© <span id="year7"></span> CashTrack — All rights reserved.</div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set current year in footer
+            document.getElementById('year7').textContent = new Date().getFullYear();
+            
+            // Mobile menu toggle functionality
+            const mobileMenuToggle = document.querySelector('#mobileMenuToggle');
+            const navLinks = document.querySelector('#navLinks');
+
+            mobileMenuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('show');
+            });
+
+            // Close menu when clicking on a link
+            const navLinksAll = document.querySelectorAll('.nav-links a, .nav-links .dropbtn');
+            navLinksAll.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (window.innerWidth <= 600) {
+                        navLinks.classList.remove('show');
+                    }
+                });
+            });
+        });
+
+        // Function to show/hide article content
+        function toggleArticle(link) {
+            const article = link.nextElementSibling;
+            const isVisible = article.style.display === "block";
+
+            // Hide all other open articles
+            document.querySelectorAll(".full-article").forEach(a => a.style.display = "none");
+            document.querySelectorAll(".small-link").forEach(l => l.textContent = "Read more →");
+
+            // Toggle current article
+            if (!isVisible) {
+                article.style.display = "block";
+                link.textContent = "Read less ↑";
+            } else {
+                article.style.display = "none";
+                link.textContent = "Read more →";
+            }
+        }
+    </script>
+</body>
+</html>
